@@ -6,3 +6,6 @@
 ## Setup
 
 $ make install
+
+1. Compares two files .json and shows a difference
+[![asciicast](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ.png)](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ)
