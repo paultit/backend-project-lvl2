@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { has } from 'lodash';
+import parser from './parsers';
 
-const genDiff = (pathToFileBefore, pathToFileAfter) => {
-  const contentFileBefore = JSON.parse(fs.readFileSync(path.resolve(pathToFileBefore), 'utf8'));
-  const contentFileAfter = JSON.parse(fs.readFileSync(path.resolve(pathToFileAfter), 'utf8'));
+const genDiff = (fileBefore, fileAfter) => {
+  const extFileBefore = path.extname(fileBefore);
+  const extFileAfter = path.extname(fileAfter);
+  if (!(extFileBefore in parser) || !(extFileAfter in parser)) {
+    throw new Error('Format is not valid');
+  }
+  const contentFileBefore = parser[extFileBefore](fs.readFileSync(path.resolve(fileBefore), 'utf8'));
+  const contentFileAfter = parser[extFileAfter](fs.readFileSync(path.resolve(fileAfter), 'utf8'));
   const fileKeys = Object.keys({ ...contentFileBefore, ...contentFileAfter });
   const result = fileKeys.reduce((acc, key) => {
     if (contentFileAfter[key] === contentFileBefore[key]) {

@@ -7,5 +7,10 @@
 
 $ make install
 
-1. Compares two files .json and shows a difference
+Compares two files .json and shows a difference
+
+1. files .json
 [![asciicast](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ.png)](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ)
+
+2. files .yaml
+[![asciicast](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm.png)](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm)
