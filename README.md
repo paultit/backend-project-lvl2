@@ -15,3 +15,6 @@ Compares two files .json and shows a difference
 
 2. files .yaml
 [![asciicast](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm.png)](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm)
+
+3. files .ini
+[![asciicast](https://asciinema.org/a/nI6Ypo9yauycQf2eDwHEKLRPt.png)](https://asciinema.org/a/nI6Ypo9yauycQf2eDwHEKLRPt)
