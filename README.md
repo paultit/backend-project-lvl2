@@ -10,11 +10,14 @@ $ make install
 
 Compares two files .json and shows a difference
 
-1. files .json
+1. flat files .json
 [![asciicast](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ.png)](https://asciinema.org/a/M8HRaJdLFAgD6uK4SqkubBDkJ)
 
-2. files .yaml
+2. flat files .yaml
 [![asciicast](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm.png)](https://asciinema.org/a/2NJcLMxZu70bSz4LLAFEk26Pm)
 
-3. files .ini
+3. flat files .ini
 [![asciicast](https://asciinema.org/a/nI6Ypo9yauycQf2eDwHEKLRPt.png)](https://asciinema.org/a/nI6Ypo9yauycQf2eDwHEKLRPt)
+
+4. nested files .ini
+[![asciicast](https://asciinema.org/a/TjGp65lB2SF8Z82knbQVLLClq.png)](https://asciinema.org/a/TjGp65lB2SF8Z82knbQVLLClq)

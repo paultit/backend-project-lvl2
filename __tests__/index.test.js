@@ -4,22 +4,34 @@ import genDiff from '../src';
 
 const getFixuturePath = (filename) => path.join(__dirname, '__fixtures__', filename);
 
-const afterJson = getFixuturePath('after.json');
-const beforeJson = getFixuturePath('before.json');
-const afterYaml = getFixuturePath('after.yaml');
-const beforeYaml = getFixuturePath('before.yaml');
-const afterIni = getFixuturePath('after.ini');
-const beforeIni = getFixuturePath('before.ini');
-const diffBeforeToAfter = fs.readFileSync(getFixuturePath('result.txt'), 'utf-8');
+const resultAst = (result) => fs.readFileSync(getFixuturePath(result), 'utf-8');
 
-test('json', () => {
-  expect(genDiff(beforeJson, afterJson)).toEqual(diffBeforeToAfter);
+test('compare json files', () => {
+  expect(genDiff(getFixuturePath('before.json'), getFixuturePath('after.json')))
+    .toBe(resultAst('result.txt'));
 });
 
-test('yaml', () => {
-  expect(genDiff(beforeYaml, afterYaml)).toEqual(diffBeforeToAfter);
+test('compare files yaml', () => {
+  expect(genDiff(getFixuturePath('before.yaml'), getFixuturePath('after.yaml')))
+    .toBe(resultAst('result.txt'));
 });
 
-test('ini', () => {
-  expect(genDiff(beforeIni, afterIni)).toEqual(diffBeforeToAfter);
+test('compare files ini', () => {
+  expect(genDiff(getFixuturePath('before.ini'), getFixuturePath('after.ini')))
+    .toBe(resultAst('result.txt'));
+});
+
+test('compare nested json files', () => {
+  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json')))
+    .toBe(resultAst('result-nested.txt'));
+});
+
+test('compare nested files yaml', () => {
+  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml')))
+    .toBe(resultAst('result-nested.txt'));
+});
+
+test('compare nestedfiles ini', () => {
+  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini')))
+    .toBe(resultAst('result-nested.txt'));
 });
