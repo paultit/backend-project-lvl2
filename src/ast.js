@@ -1,62 +1,49 @@
-import { has, union } from 'lodash';
+import { has, union, isObject } from 'lodash';
 
-const isObject = (...file) => file.every((el) => typeof el === 'object');
-const genDiff = (fileBefore, fileAfter) => {
-  const iter = (before, after, count) => {
-    const fileKeys = union(Object.keys(before), Object.keys(after));
-    const space = ' '.repeat(count);
-    const step = 4;
-    const dif = fileKeys.map((key) => {
-      const beforeValue = before[key];
-      const afterValue = after[key];
-      if (!has(before, key)) {
-        if (isObject(afterValue)) {
-          return { type: 'add', name: key, value: iter(afterValue, afterValue, count + step) };
-        }
-        return { type: 'add', name: key, value: afterValue };
-      }
-      if (!has(after, key)) {
-        if (isObject(beforeValue)) {
-          return { type: 'delete', name: key, value: iter(beforeValue, beforeValue, count + step) };
-        }
-        return { type: 'delete', name: key, value: beforeValue };
-      }
-      if (beforeValue !== afterValue) {
-        if (isObject(afterValue, beforeValue)) {
-          return {
-            type: 'changed', valueIsObject: true, name: key, children: iter(beforeValue, afterValue, count + step),
-          };
-        }
-        if (isObject(beforeValue)) {
-          return { type: 'changed', name: key, value: [afterValue, iter(beforeValue, beforeValue, count + step)] };
-        }
-        if (isObject(afterValue)) {
-          return { type: 'changed', name: key, value: [iter(afterValue, afterValue, count + step), beforeValue] };
-        }
-        return { type: 'changed', name: key, value: [afterValue, beforeValue] };
-      }
-      return { type: 'unchanged', name: key, value: afterValue };
-    });
-    const render = ({
-      type, valueIsObject, name, value, children,
-    }) => {
-      switch (type) {
-        case 'add':
-          return `${space}  + ${name}: ${value}\n`;
-        case 'delete':
-          return `${space}  - ${name}: ${value}\n`;
-        case 'changed':
-          return (valueIsObject) ? `${space}    ${name}: ${children}\n`
-            : `${space}  + ${name}: ${value[0]}\n${space}  - ${name}: ${value[1]}\n`;
-        case 'unchanged':
-          return `${space}    ${name}: ${value}\n`;
-        default:
-      }
-      return null;
-    };
-    return `{\n${dif.reduce((acc, el) => `${acc}${render(el)}`, '')}${space}}`;
-  };
-  return iter(fileBefore, fileAfter, 0);
+const propertyActions = [
+  {
+    check:
+    (contentFile1, contentFile2, key) => isObject(contentFile1[key]) && isObject(contentFile2[key]),
+    process: (valueFile1, valueFile2, key, func) => ({
+      type: 'object', key, children: func(valueFile1, valueFile2),
+    }),
+  },
+  {
+    check: (contentFile1, contentFile2, key) => !has(contentFile1, key),
+    process: (valueFile1, valueFile2, key) => ({
+      type: 'added', key, newValue: valueFile2,
+    }),
+  },
+  {
+    check: (contentFile1, contentFile2, key) => !has(contentFile2, key),
+    process: (valueFile1, valueFile2, key) => ({
+      type: 'deleted', key, newValue: valueFile1,
+    }),
+  },
+  {
+    check: (contentFile1, contentFile2, key) => contentFile1[key] !== contentFile2[key],
+    process: (valueFile1, valueFile2, key) => ({
+      type: 'changed', key, oldValue: valueFile1, newValue: valueFile2,
+    }),
+  },
+  {
+    check: (contentFile1, contentFile2, key) => contentFile1[key] === contentFile2[key],
+    process: (valueFile1, valueFile2, key) => ({
+      type: 'unchanged', key, newValue: valueFile2,
+    }),
+  },
+];
+
+const getPropertyActions = (arg1, arg2, key) => propertyActions
+  .find(({ check }) => check(arg1, arg2, key));
+
+const buildAst = (contentFile1, contentFile2) => {
+  const commonKeys = union(Object.keys(contentFile1), Object.keys(contentFile2));
+  const ast = commonKeys.map((key) => {
+    const { process } = getPropertyActions(contentFile1, contentFile2, key);
+    return process(contentFile1[key], contentFile2[key], key, buildAst);
+  });
+  return ast;
 };
 
-export default genDiff;
+export default buildAst;

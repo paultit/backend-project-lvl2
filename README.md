@@ -21,3 +21,6 @@ Compares two files .json and shows a difference
 
 4. nested files .ini
 [![asciicast](https://asciinema.org/a/TjGp65lB2SF8Z82knbQVLLClq.png)](https://asciinema.org/a/TjGp65lB2SF8Z82knbQVLLClq)
+
+5. nested files formats plain default
+[![asciicast](https://asciinema.org/a/RK2YKidv8nGibJakzYh8xH8aZ.png)](https://asciinema.org/a/RK2YKidv8nGibJakzYh8xH8aZ)

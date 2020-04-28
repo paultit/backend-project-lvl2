@@ -4,7 +4,7 @@ import genDiff from '../src';
 
 const getFixuturePath = (filename) => path.join(__dirname, '__fixtures__', filename);
 
-const resultAst = (result) => fs.readFileSync(getFixuturePath(result), 'utf-8');
+const resultAst = (result) => fs.readFileSync(getFixuturePath(result), 'utf-8').trim();
 
 test('compare json files', () => {
   expect(genDiff(getFixuturePath('before.json'), getFixuturePath('after.json')))
@@ -21,17 +21,20 @@ test('compare files ini', () => {
     .toBe(resultAst('result.txt'));
 });
 
-test('compare nested json files', () => {
+test('compare json, ini, yml nested files default format', () => {
   expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json')))
     .toBe(resultAst('result-nested.txt'));
-});
-
-test('compare nested files yaml', () => {
   expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml')))
     .toBe(resultAst('result-nested.txt'));
-});
-
-test('compare nestedfiles ini', () => {
   expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini')))
     .toBe(resultAst('result-nested.txt'));
+});
+
+test('compare json, ini, yml nested files plain format', () => {
+  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json'), 'plain'))
+    .toBe(resultAst('result-nested-plain.txt'));
+  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml'), 'plain'))
+    .toBe(resultAst('result-nested-plain.txt'));
+  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini'), 'plain'))
+    .toBe(resultAst('result-nested-plain.txt'));
 });
