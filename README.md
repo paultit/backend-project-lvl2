@@ -24,3 +24,6 @@ Compares two files .json and shows a difference
 
 5. nested files formats plain default
 [![asciicast](https://asciinema.org/a/RK2YKidv8nGibJakzYh8xH8aZ.png)](https://asciinema.org/a/RK2YKidv8nGibJakzYh8xH8aZ)
+
+6. nested files formats json
+[![asciicast](https://asciinema.org/a/APY4IOiCdA9NGTfbzrxij0NZS.png)](https://asciinema.org/a/APY4IOiCdA9NGTfbzrxij0NZS)

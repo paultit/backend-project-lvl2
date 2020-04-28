@@ -38,3 +38,12 @@ test('compare json, ini, yml nested files plain format', () => {
   expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini'), 'plain'))
     .toBe(resultAst('result-nested-plain.txt'));
 });
+
+test('compare json, ini, yml nested files json format', () => {
+  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json'), 'json'))
+    .toBe(resultAst('result-nested-json.txt'));
+  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml'), 'json'))
+    .toBe(resultAst('result-nested-json.txt'));
+  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini'), 'json'))
+    .toBe(resultAst('result-nested-json.txt'));
+});
