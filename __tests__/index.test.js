@@ -4,24 +4,20 @@ import genDiff from '../src';
 
 const getFixuturePath = (filename) => path.join(__dirname, '__fixtures__', filename);
 const readDataDiffFile = (diffFileName) => fs.readFileSync(getFixuturePath(diffFileName), 'utf-8').trim();
+const afterJson = getFixuturePath('after-nested.json');
+const beforeJson = getFixuturePath('before-nested.json');
+const afterYaml = getFixuturePath('after-nested.yaml');
+const beforeYaml = getFixuturePath('before-nested.yaml');
+const afterIni = getFixuturePath('after-nested.ini');
+const beforeIni = getFixuturePath('before-nested.ini');
 
-test('Compare files and getdiff', () => {
-  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json')))
-    .toBe(readDataDiffFile('result-nested.txt'));
-  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml')))
-    .toBe(readDataDiffFile('result-nested.txt'));
-  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini')))
-    .toBe(readDataDiffFile('result-nested.txt'));
-  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json'), 'plain'))
-    .toBe(readDataDiffFile('result-nested-plain.txt'));
-  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml'), 'plain'))
-    .toBe(readDataDiffFile('result-nested-plain.txt'));
-  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini'), 'plain'))
-    .toBe(readDataDiffFile('result-nested-plain.txt'));
-  expect(genDiff(getFixuturePath('before-nested.json'), getFixuturePath('after-nested.json'), 'json'))
-    .toBe(readDataDiffFile('result-nested-json.txt'));
-  expect(genDiff(getFixuturePath('before-nested.yaml'), getFixuturePath('after-nested.yaml'), 'json'))
-    .toBe(readDataDiffFile('result-nested-json.txt'));
-  expect(genDiff(getFixuturePath('before-nested.ini'), getFixuturePath('after-nested.ini'), 'json'))
-    .toBe(readDataDiffFile('result-nested-json.txt'));
+describe('', () => {
+  test.each([[beforeJson, afterJson],
+    [beforeYaml, afterYaml],
+    [beforeIni, afterIni],
+  ])('Compare files', (dataBefore, dataAfter) => {
+    expect(genDiff(dataBefore, dataAfter)).toEqual(readDataDiffFile('result-nested.txt'));
+    expect(genDiff(dataBefore, dataAfter, 'plain')).toEqual(readDataDiffFile('result-nested-plain.txt'));
+    expect(genDiff(dataBefore, dataAfter, 'json')).toEqual(readDataDiffFile('result-nested-json.txt'));
+  });
 });
