@@ -1,4 +1,4 @@
-import { flatten, isObject } from 'lodash';
+import { isObject } from 'lodash';
 
 const space = '    ';
 const makeIndent = (spacesCount) => space.repeat(spacesCount);
@@ -15,7 +15,7 @@ const buildTree = (object, depth) => {
 const stringify = (value, depth) => (isObject(value) ? buildTree(value, depth) : value);
 
 const render = (ast, depth = 0) => {
-  const result = flatten(ast.map((value) => {
+  const result = ast.map((value) => {
     switch (value.type) {
       case 'object':
         return `${makeIndent(depth)}    ${value.key}: ${render(value.children, depth + 1)}`;
@@ -31,7 +31,7 @@ const render = (ast, depth = 0) => {
       default:
         throw new Error(`Unknown type ${value.type}`);
     }
-  }));
-  return `{\n${result.join('\n')}\n${makeIndent(depth)}}`;
+  });
+  return `{\n${result.flat().join('\n')}\n${makeIndent(depth)}}`;
 };
 export default render;

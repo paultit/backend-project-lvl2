@@ -23,12 +23,12 @@ const render = (ast, root = '') => {
       case 'changed':
         return `Property '${path}' was changed from ${stringifyPlain(value.oldValue)} to ${stringifyPlain(value.newValue)}`;
       case 'unchanged':
-        return '';
+        return null;
       default:
         throw new Error(`Unknown type ${value.type}`);
     }
   });
-  return result.filter((item) => item !== '').join('\n');
+  return result.filter((item) => item !== null).join('\n');
 };
 
 export default render;
