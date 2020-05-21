@@ -8,6 +8,13 @@
 
 $ make install
 
+Options:
+    support for three input file types: json yml ini and three output types: json plain diff
+    -V, --version             output the version number
+    -f, --format [type]       output format
+    -h, --help                help page
+
+
 Compares two files .json and shows a difference
 
 1. flat files .json
